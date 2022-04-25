@@ -2,12 +2,32 @@ import React from 'react';
 
 const exports = {};
 
-exports.CreateOrJoin = class extends React.Component {
+exports.GetParams = class extends React.Component {
   render() {
-    const {parent, defaultContribution, standardUnit} = this.props;
+    const contribution = (this.state || {}).contribution || defaultContribution;
+    const numOfBackers = (this.state || {}).numOfBackers || backers;
+    const {parent, defaultContribution, standardUnit, backers} = this.props;
     return (
       <div>
-        <h2>Please create or join a campaign</h2>
+        <input
+          type='number'
+          placeholder={defaultContribution}
+          onChange={(e) => this.setState({contribution: e.currentTarget.value})}
+        /> {standardUnit}
+        <br />
+        <button
+          onClick={() => parent.setContribution(contribution)}
+        >Set Cotribution</button>
+        <br />
+        <input
+          type='number'
+          placeholder={backers}
+          onChange={(e) => this.setState({numOfBackers: e.currentTarget.value})}
+        /> 
+        <br />
+        <button
+          onClick={() => parent.setNumOfBackers(e.currentTarget.value)}
+        >Set Backers</button>
       </div>
     );
   }
@@ -28,7 +48,7 @@ exports.Done = class extends React.Component {
     const {outcome} = this.props;
     return (
       <div>
-        Thank you for playing. The outcome of this game was:
+        Thank you for participating. Your bonus is:
         <br />{outcome || 'Unknown'}
       </div>
     );
